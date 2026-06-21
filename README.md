@@ -20,18 +20,6 @@ OutfitIQ is an AI-powered fashion recommendation platform that helps users choos
 * HTML
 * CSS
 
-## 📂 Project Structure
-
-```text
-OutfitIQ/
-│
-├── app.py
-├── templates/
-│   └── index.html
-├── static/
-│   └── style.css
-└── README.md
-```
 
 ## 🎯 Project Goal
 
