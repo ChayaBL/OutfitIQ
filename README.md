@@ -1,40 +1,117 @@
-# OutfitIQ 👗🤖
+# 👗 OutfitIQ
 
 **Dress Smarter with AI**
 
-OutfitIQ is an AI-powered fashion recommendation platform that helps users choose the best outfits based on their wardrobe, style preferences, and occasion.
+OutfitIQ is an AI-powered fashion recommendation platform designed to help users choose the perfect outfit based on their wardrobe, occasion, weather, and personal style.
 
 ## 🚀 Features
 
-* Modern and responsive landing page
-* AI-powered outfit recommendations (planned)
-* Wardrobe management (planned)
-* Occasion-based outfit suggestions
-* Weather-based styling recommendations (planned)
-* User-friendly interface
+### Current Features
+
+* Responsive landing page
+* Modern navigation bar
+* Hero section with call-to-action
+* Features section
+* Smooth scrolling
+* Interactive hover effects
+* Clean and modern UI
+
+### Planned Features
+
+* 🤖 AI-powered outfit recommendations
+* 👕 Digital wardrobe management
+* 🌦️ Weather-based outfit suggestions
+* 🎉 Occasion-based styling
+* 👤 User authentication (Sign In / Sign Up)
+* 📊 Personal dashboard
+* ❤️ Save favorite outfits
 
 ## 🛠️ Tech Stack
 
 * Python
 * Flask
-* HTML
-* CSS
+* HTML5
+* CSS3
+* Git
+* GitHub
 
+## 📂 Project Structure
+
+```text
+OutfitIQ/
+├── app.py
+├── templates/
+│   └── index.html
+├── static/
+│   └── style.css
+├── README.md
+└── requirements.txt (coming soon)
+```
 
 ## 🎯 Project Goal
 
-The goal of OutfitIQ is to become a smart personal stylist that helps users make better fashion choices using AI and machine learning.
+The goal of OutfitIQ is to become an AI-powered personal stylist that helps users organize their wardrobe and receive personalized outfit recommendations for different occasions.
 
-## 📌 Current Status
+## 📈 Current Status
 
-🚧 Under Development
+🚧 **Version 0.2 – In Development**
 
-Version 0.1:
+Completed:
 
-* Flask setup completed
-* Landing page created
-* Navigation bar added
+* ✅ Flask application setup
+* ✅ Landing page
+* ✅ Responsive navigation bar
+* ✅ Hero section
+* ✅ Features section
+* ✅ Footer
+* ✅ Smooth scrolling
+* ✅ Hover animations
+* ✅ CSS variables for reusable styling
+
+## ▶️ How to Run the Project
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/ChayaBL/OutfitIQ.git
+```
+
+### 2. Navigate to the project folder
+
+```bash
+cd OutfitIQ
+```
+
+### 3. Install Flask
+
+```bash
+pip install flask
+```
+
+### 4. Run the application
+
+```bash
+python app.py
+```
+
+### 5. Open your browser
+
+Visit:
+
+```text
+http://127.0.0.1:5000
+```
+ 
+## 🌱 Future Roadmap
+
+* Build Sign In and Sign Up pages
+* Create a user dashboard
+* Add wardrobe management
+* Integrate AI outfit recommendations
+* Deploy the application online
 
 ## 👩‍💻 Author
 
-Chaya B.L
+**Chaya B.L**
+
+If you like this project, feel free to ⭐ the repository and follow its progress.
