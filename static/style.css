@@ -120,17 +120,19 @@ a{
 
 
 .login-btn{
+    display:inline-block;
     background:var(--primary);
     color:var(--white);
-    border:none;
+    text-decoration:none;
     padding:10px 20px;
     border-radius:8px;
-    cursor:pointer;
     font-size:16px;
+    transition:0.3s;
 }
 
 .login-btn:hover{
-    opacity:0.9;
+    background:var(--accent);
+    transform:translateY(-2px);
 }
 footer{
     background:var(--primary);
