@@ -2,13 +2,17 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route("/")
 def home():
-    return render_template('index.html')
+    return render_template("index.html")
 
-@app.route('/signin')
+@app.route("/signin")
 def signin():
-    return render_template('signin.html')
+    return render_template("signin.html")
 
-if __name__ == '__main__':
+@app.route("/signup")
+def signup():
+    return render_template("signup.html")
+
+if __name__ == "__main__":
     app.run(debug=True)
