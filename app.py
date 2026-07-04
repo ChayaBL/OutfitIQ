@@ -2,12 +2,32 @@ from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
+users = []
+
+@app.route("/dashboard")
+def dashboard():
+    return render_template("dashboard.html")
+
 @app.route("/")
 def home():
     return render_template("index.html")
 
-@app.route("/signin")
+@app.route("/signin", methods=["GET", "POST"])
 def signin():
+
+    if request.method == "POST":
+
+        email = request.form["email"]
+        password = request.form["password"]
+
+        print(users)
+
+        for user in users:
+            if user["email"] == email and user["password"] == password:
+                return redirect(url_for("dashboard"))
+
+        return "Invalid email or password!"
+
     return render_template("signin.html")
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -19,9 +39,17 @@ def signup():
         email = request.form["email"]
         password = request.form["password"]
 
-        print(name)
-        print(email)
-        print(password)
+        for user in users:
+            if user["email"] == email:
+                return "Email already registered!"
+
+        users.append({
+            "name": name,
+            "email": email,
+            "password": password
+        })
+
+        print(users)
 
         return redirect(url_for("signin"))
 
