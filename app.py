@@ -6,7 +6,7 @@ users = []
 
 @app.route("/dashboard")
 def dashboard():
-    return render_template("dashboard.html")
+    return redirect(url_for("signin"))
 
 @app.route("/")
 def home():
@@ -20,11 +20,14 @@ def signin():
         email = request.form["email"]
         password = request.form["password"]
 
-        print(users)
+        
 
         for user in users:
+            
             if user["email"] == email and user["password"] == password:
-                return redirect(url_for("dashboard"))
+                return render_template("dashboard.html", name=user["name"])
+
+        
 
         return "Invalid email or password!"
 
