@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-
+import sqlite3
 app = Flask(__name__)
 
 users = []
@@ -20,14 +20,20 @@ def signin():
         email = request.form["email"]
         password = request.form["password"]
 
-        
+        connection = sqlite3.connect("outfitiq.db")
+        cursor = connection.cursor()
 
-        for user in users:
-            
-            if user["email"] == email and user["password"] == password:
-                return render_template("dashboard.html", name=user["name"])
+        cursor.execute(
+            "SELECT * FROM users WHERE email = ? AND password = ?",
+            (email, password)
+        )
 
-        
+        user = cursor.fetchone()
+
+        connection.close()
+
+        if user:
+            return render_template("dashboard.html", name=user[1])
 
         return "Invalid email or password!"
 
@@ -41,18 +47,29 @@ def signup():
         name = request.form["name"]
         email = request.form["email"]
         password = request.form["password"]
+        connection = sqlite3.connect("outfitiq.db")
+        cursor = connection.cursor()
 
-        for user in users:
-            if user["email"] == email:
-                return "Email already registered!"
+        cursor.execute(
+            "SELECT * FROM users WHERE email = ?",
+            (email,)
+        )
 
-        users.append({
-            "name": name,
-            "email": email,
-            "password": password
-        })
+        existing_user = cursor.fetchone()
 
-        print(users)
+        if existing_user:
+            connection.close()
+            return "Email already registered!"
+
+        cursor.execute(
+            "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
+            (name, email, password)
+        )
+
+        connection.commit()
+        connection.close()
+
+        
 
         return redirect(url_for("signin"))
 
