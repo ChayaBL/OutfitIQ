@@ -4,69 +4,97 @@
 
 OutfitIQ is an AI-powered fashion recommendation platform designed to help users choose the perfect outfit based on their wardrobe, occasion, weather, and personal style.
 
+---
+
 ## 🚀 Features
 
 ### Current Features
 
-* Responsive landing page
-* Modern navigation bar
-* Hero section with call-to-action
-* Features section
-* Smooth scrolling
-* Interactive hover effects
-* Clean and modern UI
+- ✅ Responsive landing page
+- ✅ Modern navigation bar
+- ✅ User Sign Up
+- ✅ User Sign In
+- ✅ User Logout
+- ✅ Session-based authentication
+- ✅ Protected dashboard
+- ✅ SQLite database integration
+- ✅ Personalized dashboard
+- ✅ Interactive hover effects
+- ✅ Clean and modern UI
 
 ### Planned Features
 
-* 🤖 AI-powered outfit recommendations
-* 👕 Digital wardrobe management
-* 🌦️ Weather-based outfit suggestions
-* 🎉 Occasion-based styling
-* 👤 User authentication (Sign In / Sign Up)
-* 📊 Personal dashboard
-* ❤️ Save favorite outfits
+- 🤖 AI-powered outfit recommendations
+- 👕 Digital wardrobe management
+- 🌦️ Weather-based outfit suggestions
+- 🎉 Occasion-based styling
+- ❤️ Save favorite outfits
+- 📸 Upload wardrobe images
+- 👤 User profile management
+
+---
 
 ## 🛠️ Tech Stack
 
-* Python
-* Flask
-* HTML5
-* CSS3
-* Git
-* GitHub
+- Python
+- Flask
+- SQLite3
+- HTML5
+- CSS3
+- Git
+- GitHub
+
+---
 
 ## 📂 Project Structure
 
 ```text
 OutfitIQ/
+│
 ├── app.py
+├── database.py
+├── outfitiq.db
+│
 ├── templates/
-│   └── index.html
+│   ├── index.html
+│   ├── signin.html
+│   ├── signup.html
+│   └── dashboard.html
+│
 ├── static/
-│   └── style.css
+│   ├── style.css
+│   ├── signin.css
+│   ├── signup.css
+│   └── dashboard.css
+│
 ├── README.md
 └── requirements.txt (coming soon)
 ```
 
+---
+
 ## 🎯 Project Goal
 
-The goal of OutfitIQ is to become an AI-powered personal stylist that helps users organize their wardrobe and receive personalized outfit recommendations for different occasions.
+The goal of OutfitIQ is to become an AI-powered personal stylist that helps users organize their wardrobe and receive intelligent outfit recommendations using Artificial Intelligence and Machine Learning.
+
+---
 
 ## 📈 Current Status
 
-🚧 **Version 0.2 – In Development**
+🚧 **Version 0.5 – In Development**
 
-Completed:
+### Completed
 
-* ✅ Flask application setup
-* ✅ Landing page
-* ✅ Responsive navigation bar
-* ✅ Hero section
-* ✅ Features section
-* ✅ Footer
-* ✅ Smooth scrolling
-* ✅ Hover animations
-* ✅ CSS variables for reusable styling
+- ✅ Flask application setup
+- ✅ Landing page
+- ✅ User authentication
+- ✅ SQLite database integration
+- ✅ Persistent user storage
+- ✅ Session management
+- ✅ Protected dashboard
+- ✅ Logout functionality
+
+---
 
 ## ▶️ How to Run the Project
 
@@ -88,27 +116,37 @@ cd OutfitIQ
 pip install flask
 ```
 
-### 4. Run the application
+### 4. Create the database
+
+```bash
+python database.py
+```
+
+### 5. Run the application
 
 ```bash
 python app.py
 ```
 
-### 5. Open your browser
+### 6. Open your browser
 
-Visit:
-
-```text
+```
 http://127.0.0.1:5000
 ```
- 
+
+---
+
 ## 🌱 Future Roadmap
 
-* Build Sign In and Sign Up pages
-* Create a user dashboard
-* Add wardrobe management
-* Integrate AI outfit recommendations
-* Deploy the application online
+- 👗 Wardrobe management
+- 📸 Upload clothing images
+- 🤖 AI outfit recommendations
+- 🌦️ Weather-based styling
+- 🎉 Occasion-based suggestions
+- ❤️ Favorite outfits
+- ☁️ Cloud deployment
+
+---
 
 ## 👩‍💻 Author
 

@@ -1,12 +1,24 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 import sqlite3
 app = Flask(__name__)
+app.secret_key = "outfitiq_secret_key"
 
 users = []
 
 @app.route("/dashboard")
 def dashboard():
-    return redirect(url_for("signin"))
+
+    if "name" not in session:
+        return redirect(url_for("signin"))
+
+    return render_template("dashboard.html", name=session["name"])
+
+@app.route("/logout")
+def logout():
+
+    session.clear()
+
+    return redirect(url_for("home"))
 
 @app.route("/")
 def home():
@@ -33,8 +45,8 @@ def signin():
         connection.close()
 
         if user:
-            return render_template("dashboard.html", name=user[1])
-
+            session["name"] = user[1]
+            return redirect(url_for("dashboard"))
         return "Invalid email or password!"
 
     return render_template("signin.html")
