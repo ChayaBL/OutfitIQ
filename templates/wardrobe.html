@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Wardrobe - OutfitIQ</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='wardrobe.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>👗 My Wardrobe</h1>
+
+    <p>Add your clothing items.</p>
+
+    <form method="POST" enctype="multipart/form-data">
+
+        <label>Category</label>
+
+        <select name="category">
+
+            <option>Shirt</option>
+            <option>T-Shirt</option>
+            <option>Jeans</option>
+            <option>Trousers</option>
+            <option>Shoes</option>
+
+        </select>
+
+        <label>Color</label>
+
+        <input
+            type="text"
+            name="color"
+            placeholder="Blue"
+            required
+        >
+
+        <label>Occasion</label>
+
+        <input
+            type="text"
+            name="occasion"
+            placeholder="Casual"
+            required
+        >
+        <label>Season</label>
+
+        <select name="season">
+
+            <option>Summer</option>
+            <option>Winter</option>
+            <option>Rainy</option>
+            <option>All Seasons</option>
+
+        </select>
+
+        <label>Clothing Image</label>
+
+        <input
+            type="file"
+            name="image"
+            accept="image/*"
+            required
+        >
+
+        <button>Add Item</button>
+
+    </form>
+
+    <a href="/dashboard">← Back to Dashboard</a>
+
+</div>
+
+</body>
+</html>

@@ -1,10 +1,44 @@
 from flask import Flask, render_template, request, redirect, url_for, session
+from werkzeug.utils import secure_filename
 import sqlite3
+import os
 app = Flask(__name__)
 app.secret_key = "outfitiq_secret_key"
+UPLOAD_FOLDER = "static/uploads"
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 users = []
 
+@app.route("/wardrobe", methods=["GET", "POST"])
+def wardrobe():
+
+    if "name" not in session:
+        return redirect(url_for("signin"))
+
+    if request.method == "POST":
+
+        category = request.form["category"]
+        color = request.form["color"]
+        occasion = request.form["occasion"]
+        season = request.form["season"]
+
+        image = request.files["image"]
+
+        filename = secure_filename(image.filename)
+
+        image.save(
+            os.path.join(app.config["UPLOAD_FOLDER"], filename)
+        )
+
+        print(category)
+        print(color)
+        print(occasion)
+        print(season)
+        print(filename)
+
+        return redirect(url_for("wardrobe"))
+
+    return render_template("wardrobe.html")
 @app.route("/dashboard")
 def dashboard():
 
