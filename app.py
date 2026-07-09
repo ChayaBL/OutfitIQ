@@ -19,7 +19,6 @@ def wardrobe():
 
         category = request.form["category"]
         color = request.form["color"]
-        occasion = request.form["occasion"]
         season = request.form["season"]
 
         image = request.files["image"]
@@ -30,9 +29,22 @@ def wardrobe():
             os.path.join(app.config["UPLOAD_FOLDER"], filename)
         )
 
+        connection = sqlite3.connect("outfitiq.db")
+        cursor = connection.cursor()
+
+        cursor.execute(
+            """
+            INSERT INTO wardrobe(category, color, season, image)
+            VALUES (?, ?, ?, ?)
+            """,
+            (category, color, season, filename)
+        )
+
+        connection.commit()
+        connection.close()
+
         print(category)
         print(color)
-        print(occasion)
         print(season)
         print(filename)
 

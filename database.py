@@ -4,6 +4,7 @@ connection = sqlite3.connect("outfitiq.db")
 
 cursor = connection.cursor()
 
+# Users Table
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS users(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -12,6 +13,18 @@ CREATE TABLE IF NOT EXISTS users(
     password TEXT NOT NULL
 )
 """)
+
+# Wardrobe Table
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS wardrobe(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    category TEXT NOT NULL,
+    color TEXT NOT NULL,
+    season TEXT NOT NULL,
+    image TEXT NOT NULL
+)
+""")
+
 
 connection.commit()
 connection.close()
