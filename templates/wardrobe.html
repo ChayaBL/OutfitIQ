@@ -65,6 +65,31 @@
 
     <a href="/dashboard">← Back to Dashboard</a>
 
+    <hr>
+
+    <h2>My Clothes</h2>
+
+    {% for cloth in clothes %}
+
+    <div class="cloth-card">
+
+        <img
+            src="{{ url_for('static', filename='uploads/' + cloth[4]) }}"
+            width="200"
+        >
+
+        <p><b>Category:</b> {{ cloth[1] }}</p>
+
+        <p><b>Color:</b> {{ cloth[2] }}</p>
+
+        <p><b>Season:</b> {{ cloth[3] }}</p>
+
+    </div>
+
+    <hr>
+
+{% endfor %}
+
 </div>
 
 </body>

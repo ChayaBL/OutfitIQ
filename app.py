@@ -50,7 +50,19 @@ def wardrobe():
 
         return redirect(url_for("wardrobe"))
 
-    return render_template("wardrobe.html")
+    connection = sqlite3.connect("outfitiq.db")
+    cursor = connection.cursor()
+
+    cursor.execute("SELECT * FROM wardrobe")
+
+    clothes = cursor.fetchall()
+
+    connection.close()
+
+    return render_template(
+        "wardrobe.html",
+        clothes=clothes
+    )
 @app.route("/dashboard")
 def dashboard():
 
