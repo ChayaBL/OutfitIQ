@@ -22,18 +22,14 @@ body{
 
 .container{
     width:100%;
-    max-width:450px;
+    max-width:1200px;
     background:white;
     padding:40px;
     border-radius:15px;
     box-shadow:0 10px 25px rgba(0,0,0,.1);
 }
 
-form{
-    display:flex;
-    flex-direction:column;
-    gap:15px;
-}
+
 
 input,
 select,
@@ -47,8 +43,98 @@ button{
     color:white;
     border:none;
     cursor:pointer;
+    padding:14px;
+    font-size:16px;
+    font-weight:bold;
+    transition:.3s;
 }
 
 button:hover{
     background:var(--accent);
+    transform:translateY(-2px);
+}
+hr{
+    margin:40px 0;
+}
+
+h2{
+    margin-bottom:20px;
+    color:var(--primary);
+}
+
+.clothes-container{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,300px);
+    gap:25px;
+    justify-content:center;
+}
+
+.cloth-card{
+    background:var(--white);
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 8px 20px rgba(0,0,0,.12);
+    transition:0.3s;
+    padding:15px;
+}
+
+.cloth-card:hover{
+    transform:translateY(-8px) scale(1.02);
+    box-shadow:0 15px 30px rgba(0,0,0,.18);
+}
+
+.cloth-card img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    border-radius:12px;
+}
+
+.info{
+    padding: 25px;
+}
+
+.info p{
+    margin:8px 0;
+    color:#555;
+    font-size:15px;
+}
+
+.info b{
+    color:var(--primary);
+}
+h1{
+    color:var(--primary);
+    margin-bottom:10px;
+}
+
+h2{
+    margin:35px 0 20px;
+    color:var(--primary);
+}
+form{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+    margin-bottom:40px;
+}
+
+.back-btn{
+    display:inline-block;
+    margin-top:35px;
+    padding:12px 20px;
+    background:var(--primary);
+    color:white;
+    text-decoration:none;
+    border-radius:8px;
+    transition:.3s;
+}
+
+.back-btn:hover{
+    background:var(--accent);
+}
+.cloth-card h3{
+    text-align:center;
+    margin-bottom:15px;
+    color:var(--primary);
 }
