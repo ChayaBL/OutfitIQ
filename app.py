@@ -63,6 +63,40 @@ def wardrobe():
         "wardrobe.html",
         clothes=clothes
     )
+@app.route("/delete/<int:id>")
+def delete(id):
+
+    connection = sqlite3.connect("outfitiq.db")
+    cursor = connection.cursor()
+
+    # Get image filename
+    cursor.execute(
+        "SELECT image FROM wardrobe WHERE id = ?",
+        (id,)
+    )
+
+    image = cursor.fetchone()
+
+    if image:
+        image_path = os.path.join(
+            app.config["UPLOAD_FOLDER"],
+            image[0]
+        )
+
+        if os.path.exists(image_path):
+            os.remove(image_path)
+
+    # Delete from database
+    cursor.execute(
+        "DELETE FROM wardrobe WHERE id = ?",
+        (id,)
+    )
+
+    connection.commit()
+    connection.close()
+
+    return redirect(url_for("wardrobe"))
+
 @app.route("/dashboard")
 def dashboard():
 

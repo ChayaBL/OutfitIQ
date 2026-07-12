@@ -138,3 +138,19 @@ form{
     margin-bottom:15px;
     color:var(--primary);
 }
+.delete-btn{
+    display:block;
+    margin:15px;
+    padding:12px;
+    text-align:center;
+    text-decoration:none;
+    background:#dc2626;
+    color:white;
+    border-radius:8px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.delete-btn:hover{
+    background:#b91c1c;
+}
