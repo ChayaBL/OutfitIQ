@@ -97,6 +97,42 @@ def delete(id):
 
     return redirect(url_for("wardrobe"))
 
+@app.route("/edit/<int:id>", methods=["GET", "POST"])
+def edit(id):
+
+    connection = sqlite3.connect("outfitiq.db")
+    cursor = connection.cursor()
+
+    if request.method == "POST":
+
+        category = request.form["category"]
+        color = request.form["color"]
+        season = request.form["season"]
+
+        cursor.execute(
+            """
+            UPDATE wardrobe
+            SET category = ?, color = ?, season = ?
+            WHERE id = ?
+            """,
+            (category, color, season, id)
+        )
+
+        connection.commit()
+        connection.close()
+
+        return redirect(url_for("wardrobe"))
+
+    cursor.execute(
+        "SELECT * FROM wardrobe WHERE id = ?",
+        (id,)
+    )
+
+    cloth = cursor.fetchone()
+
+    connection.close()
+
+    return render_template("edit.html", cloth=cloth)
 @app.route("/dashboard")
 def dashboard():
 

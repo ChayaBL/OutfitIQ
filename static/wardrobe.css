@@ -154,3 +154,19 @@ form{
 .delete-btn:hover{
     background:#b91c1c;
 }
+.edit-btn{
+    display:block;
+    margin:15px;
+    padding:12px;
+    text-align:center;
+    text-decoration:none;
+    background:#2563eb;
+    color:white;
+    border-radius:8px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.edit-btn:hover{
+    background:#1d4ed8;
+}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Edit Clothing - OutfitIQ</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='wardrobe.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>✏️ Edit Clothing</h1>
+
+    <form method="POST">
+
+        <label>Category</label>
+
+        <select name="category">
+
+            <option {% if cloth[1] == "Shirt" %}selected{% endif %}>Shirt</option>
+            <option {% if cloth[1] == "T-Shirt" %}selected{% endif %}>T-Shirt</option>
+            <option {% if cloth[1] == "Jeans" %}selected{% endif %}>Jeans</option>
+            <option {% if cloth[1] == "Trousers" %}selected{% endif %}>Trousers</option>
+            <option {% if cloth[1] == "Shoes" %}selected{% endif %}>Shoes</option>
+
+        </select>
+
+        <label>Color</label>
+
+        <input
+            type="text"
+            name="color"
+            value="{{ cloth[2] }}"
+            required
+        >
+
+        <label>Season</label>
+
+        <select name="season">
+
+            <option {% if cloth[3] == "Summer" %}selected{% endif %}>Summer</option>
+            <option {% if cloth[3] == "Winter" %}selected{% endif %}>Winter</option>
+            <option {% if cloth[3] == "Rainy" %}selected{% endif %}>Rainy</option>
+            <option {% if cloth[3] == "All Seasons" %}selected{% endif %}>All Seasons</option>
+
+        </select>
+
+        <button>💾 Save Changes</button>
+
+    </form>
+
+    <a href="/wardrobe" class="back-btn">← Back to Wardrobe</a>
+
+</div>
+
+</body>
+</html>
