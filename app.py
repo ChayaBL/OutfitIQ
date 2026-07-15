@@ -53,15 +53,47 @@ def wardrobe():
     connection = sqlite3.connect("outfitiq.db")
     cursor = connection.cursor()
 
-    cursor.execute("SELECT * FROM wardrobe")
+    search = request.args.get("search", "")
+    category = request.args.get("category", "")
+
+    if search:
+        cursor.execute(
+            """
+            SELECT * FROM wardrobe
+            WHERE category LIKE ?
+            OR color LIKE ?
+            """,
+            (f"%{search}%", f"%{search}%")
+        )
+
+    elif category:
+        cursor.execute(
+            """
+            SELECT * FROM wardrobe
+            WHERE category = ?
+            """,
+            (category,)
+        )
+
+    else:
+        cursor.execute("SELECT * FROM wardrobe")
 
     clothes = cursor.fetchall()
+
+    total_clothes = len(clothes)
+
+    colors = len(set(cloth[2] for cloth in clothes))
+
+    seasons = len(set(cloth[3] for cloth in clothes))
 
     connection.close()
 
     return render_template(
         "wardrobe.html",
-        clothes=clothes
+        clothes=clothes,
+        total_clothes=total_clothes,
+        colors=colors,
+        seasons=seasons
     )
 @app.route("/delete/<int:id>")
 def delete(id):

@@ -23,9 +23,9 @@ body{
 .dashboard-container{
     background:var(--white);
     width:100%;
-    max-width:500px;
-    padding:40px;
-    border-radius:15px;
+    max-width:650px;
+    padding:50px;
+    border-radius:20px;
     text-align:center;
     box-shadow:0 10px 25px rgba(0,0,0,.1);
 }
@@ -33,11 +33,14 @@ body{
 h1{
     color:var(--primary);
     margin-bottom:15px;
+    font-size:36px;
 }
 
-p{
-    color:#555;
-    margin-bottom:30px;
+.subtitle{
+    color:#6b7280;
+    font-size:16px;
+    margin-bottom:35px;
+    line-height:1.6;
 }
 
 .dashboard-buttons{
@@ -48,16 +51,19 @@ p{
 
 .btn{
     display:block;
-    padding:14px;
+    padding:16px;
     background:var(--primary);
     color:white;
     text-decoration:none;
-    border-radius:10px;
+    border-radius:12px;
     transition:.3s;
+    font-size:17px;
+    font-weight:bold;
 }
 
 .btn:hover{
     background:var(--accent);
+    transform:translateY(-3px);
 }
 
 .home-link{

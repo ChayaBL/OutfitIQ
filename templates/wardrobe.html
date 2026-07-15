@@ -15,6 +15,25 @@
 
     <p>Add your clothing items.</p>
 
+    <div class="stats">
+
+        <div class="stat-card">
+            <h2>{{ total_clothes }}</h2>
+            <p>👕 Total Clothes</p>
+        </div>
+
+        <div class="stat-card">
+            <h2>{{ colors }}</h2>
+            <p>🎨 Colors</p>
+        </div>
+
+        <div class="stat-card">
+            <h2>{{ seasons }}</h2>
+            <p>🌦️ Seasons</p>
+        </div>
+
+    </div>
+
     <form method="POST" enctype="multipart/form-data">
 
         <label>Category</label>
@@ -63,7 +82,36 @@
 
     </form>
 
-    
+        <form method="GET" class="search-form">
+
+        <input
+            type="text"
+            name="search"
+            placeholder="Search by category or color..."
+            value="{{ request.args.get('search','') }}"
+        >
+
+        <button type="submit">
+            🔍 Search
+        </button>
+
+    </form>
+
+    <div class="filters">
+
+        <a href="/wardrobe" class="filter-btn">All</a>
+
+        <a href="/wardrobe?category=Shirt" class="filter-btn">👕 Shirt</a>
+
+        <a href="/wardrobe?category=T-Shirt" class="filter-btn">👕 T-Shirt</a>
+
+        <a href="/wardrobe?category=Jeans" class="filter-btn">👖 Jeans</a>
+
+        <a href="/wardrobe?category=Trousers" class="filter-btn">👖 Trousers</a>
+
+        <a href="/wardrobe?category=Shoes" class="filter-btn">👟 Shoes</a>
+
+    </div>
 
     
 
