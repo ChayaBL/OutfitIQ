@@ -76,6 +76,8 @@ h2{
     box-shadow:0 8px 20px rgba(0,0,0,.12);
     transition:0.3s;
     padding:15px;
+    transform:translateY(-6px);
+    box-shadow:0 15px 35px rgba(0,0,0,.18);
 }
 
 .cloth-card:hover{
@@ -232,4 +234,11 @@ form{
     color:white;
     margin:0;
     font-size:15px;
+}
+.cloth-image{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    border-radius:12px;
+    margin-bottom:15px;
 }

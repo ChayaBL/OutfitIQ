@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Profile - OutfitIQ</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='profile.css') }}">
+</head>
+
+<body>
+
+<div class="profile-container">
+
+    <h1>👤 My Profile</h1>
+
+    <div class="profile-card">
+
+        <h2>{{ user[1] }}</h2>
+
+        <p>📧 {{ user[2] }}</p>
+
+        <a href="/edit_profile" class="edit-btn">
+            ✏️ Edit Profile
+        </a>
+
+    </div>
+
+    <a href="/dashboard" class="back-btn">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+</body>
+</html>

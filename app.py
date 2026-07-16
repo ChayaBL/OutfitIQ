@@ -173,6 +173,93 @@ def dashboard():
 
     return render_template("dashboard.html", name=session["name"])
 
+@app.route("/profile")
+def profile():
+
+    if "name" not in session:
+        return redirect(url_for("signin"))
+
+    connection = sqlite3.connect("outfitiq.db")
+    cursor = connection.cursor()
+
+    cursor.execute(
+        "SELECT * FROM users WHERE name = ?",
+        (session["name"],)
+    )
+
+    user = cursor.fetchone()
+
+    connection.close()
+
+    return render_template(
+        "profile.html",
+        user=user
+    )
+
+@app.route("/edit_profile", methods=["GET", "POST"])
+def edit_profile():
+
+    if "name" not in session:
+        return redirect(url_for("signin"))
+
+    connection = sqlite3.connect("outfitiq.db")
+    cursor = connection.cursor()
+
+    cursor.execute(
+        "SELECT * FROM users WHERE name = ?",
+        (session["name"],)
+    )
+
+    user = cursor.fetchone()
+
+    if request.method == "POST":
+
+        name = request.form["name"]
+        email = request.form["email"]
+
+        cursor.execute(
+            """
+            UPDATE users
+            SET name = ?, email = ?
+            WHERE id = ?
+            """,
+            (name, email, user[0])
+        )
+
+        connection.commit()
+        connection.close()
+
+        session["name"] = name
+
+        return redirect(url_for("profile"))
+
+    connection.close()
+
+    return render_template(
+        "edit_profile.html",
+        user=user
+    )
+
+@app.route("/recommend", methods=["GET", "POST"])
+def recommend():
+
+    if "name" not in session:
+        return redirect(url_for("signin"))
+
+    recommendation = None
+
+    if request.method == "POST":
+
+        weather = request.form["weather"]
+        occasion = request.form["occasion"]
+
+        recommendation = f"For {weather} weather and a {occasion} occasion, here's a recommended outfit!"
+
+    return render_template(
+        "recommend.html",
+        recommendation=recommendation
+    )
+
 @app.route("/logout")
 def logout():
 

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>AI Recommendations - OutfitIQ</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='recommend.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🤖 AI Outfit Recommendation</h1>
+
+    <form method="POST">
+
+        <label>🌤 Weather</label>
+
+        <select name="weather">
+            <option>Sunny</option>
+            <option>Rainy</option>
+            <option>Cold</option>
+        </select>
+
+        <label>🎯 Occasion</label>
+
+        <select name="occasion">
+            <option>Casual</option>
+            <option>College</option>
+            <option>Party</option>
+            <option>Office</option>
+        </select>
+
+        <button>
+            Get Recommendation
+        </button>
+
+    </form>
+
+    {% if recommendation %}
+
+    <div class="result">
+
+        <h2>✨ Recommendation</h2>
+
+        <p>{{ recommendation }}</p>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>

@@ -125,7 +125,11 @@
 
         <h3>👖 {{ cloth[1] }}</h3>
 
-        <img src="{{ url_for('static', filename='uploads/' + cloth[4]) }}">
+        <img
+            src="{{ url_for('static', filename='uploads/' + cloth[4]) }}"
+            alt="{{ cloth[1] }}"
+            class="cloth-image"
+        >
 
         <div class="info">
 
