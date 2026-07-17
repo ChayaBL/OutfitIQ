@@ -253,8 +253,44 @@ def recommend():
         weather = request.form["weather"]
         occasion = request.form["occasion"]
 
-        recommendation = f"For {weather} weather and a {occasion} occasion, here's a recommended outfit!"
+        connection = sqlite3.connect("outfitiq.db")
+        cursor = connection.cursor()
 
+        if weather == "Sunny":
+            season = ("Summer", "All Seasons")
+        elif weather == "Rainy":
+            season = ("Rainy", "All Seasons")
+        else:
+            season = ("Winter", "All Seasons")
+
+        # Find a top
+        cursor.execute("""
+        SELECT * FROM wardrobe
+        WHERE category IN ('Shirt', 'T-Shirt')
+        AND season IN (?, ?)
+        LIMIT 1
+        """, season)
+
+        top = cursor.fetchone()
+
+        # Find a bottom
+        cursor.execute("""
+        SELECT * FROM wardrobe
+        WHERE category IN ('Jeans', 'Trousers')
+        AND season IN (?, ?)
+        LIMIT 1
+        """, season)
+
+        bottom = cursor.fetchone()
+
+        connection.close()
+
+        recommendation = {
+            "top": top,
+            "bottom": bottom
+        }
+
+        
     return render_template(
         "recommend.html",
         recommendation=recommendation

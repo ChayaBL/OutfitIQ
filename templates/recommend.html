@@ -42,9 +42,31 @@
 
     <div class="result">
 
-        <h2>✨ Recommendation</h2>
+        <h2>✨ Recommended Outfit</h2>
 
-        <p>{{ recommendation }}</p>
+        {% if recommendation.top %}
+            <h3>👕 Top</h3>
+
+            <img src="{{ url_for('static', filename='uploads/' + recommendation.top[4]) }}"
+                width="200">
+
+            <p><strong>Category:</strong> {{ recommendation.top[1] }}</p>
+            <p><strong>Color:</strong> {{ recommendation.top[2] }}</p>
+            <p><strong>Season:</strong> {{ recommendation.top[3] }}</p>
+        {% endif %}
+
+        <hr>
+
+        {% if recommendation.bottom %}
+            <h3>👖 Bottom</h3>
+
+            <img src="{{ url_for('static', filename='uploads/' + recommendation.bottom[4]) }}"
+                width="200">
+
+            <p><strong>Category:</strong> {{ recommendation.bottom[1] }}</p>
+            <p><strong>Color:</strong> {{ recommendation.bottom[2] }}</p>
+            <p><strong>Season:</strong> {{ recommendation.bottom[3] }}</p>
+        {% endif %}
 
     </div>
 
