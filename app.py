@@ -1,8 +1,12 @@
+from dotenv import load_dotenv
+load_dotenv()
 from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.utils import secure_filename
+from groq import Groq
 import sqlite3
 import os
 app = Flask(__name__)
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 app.secret_key = "outfitiq_secret_key"
 UPLOAD_FOLDER = "static/uploads"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
@@ -247,6 +251,7 @@ def recommend():
         return redirect(url_for("signin"))
 
     recommendation = None
+    ai_response = ""
 
     if request.method == "POST":
 
@@ -268,6 +273,7 @@ def recommend():
         SELECT * FROM wardrobe
         WHERE category IN ('Shirt', 'T-Shirt')
         AND season IN (?, ?)
+        ORDER BY RANDOM()
         LIMIT 1
         """, season)
 
@@ -278,6 +284,7 @@ def recommend():
         SELECT * FROM wardrobe
         WHERE category IN ('Jeans', 'Trousers')
         AND season IN (?, ?)
+        ORDER BY RANDOM()
         LIMIT 1
         """, season)
 
@@ -289,12 +296,52 @@ def recommend():
             "top": top,
             "bottom": bottom
         }
+    
 
-        
+        if top and bottom:
+            prompt = f"""
+            You are OutfitIQ, an AI fashion stylist.
+
+            Use ONLY the information below.
+
+            Top:
+            - Category: {top[1]}
+            - Color: {top[2]}
+            - Season: {top[3]}
+
+            Bottom:
+            - Category: {bottom[1]}
+            - Color: {bottom[2]}
+            - Season: {bottom[3]}
+
+            Weather: {weather}
+            Occasion: {occasion}
+
+            Rules:
+            1. Do NOT change the weather.
+            2. Do NOT change the occasion.
+            3. Recommend ONLY these clothes.
+            4. Explain in 2-3 sentences why they are suitable.
+            """
+
+            response = client.chat.completions.create(
+                model="llama-3.3-70b-versatile",
+                messages=[
+                    {
+                        "role": "user",
+                        "content": prompt
+                    }
+                ]
+            )
+
+            ai_response = response.choices[0].message.content
+
+            
     return render_template(
         "recommend.html",
-        recommendation=recommendation
-    )
+        recommendation=recommendation,
+        ai_response=ai_response
+        )
 
 @app.route("/logout")
 def logout():
