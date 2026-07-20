@@ -15,21 +15,22 @@
 
     <form method="POST">
 
-        <label>🌤 Weather</label>
+        <label>📍 City</label>
 
-        <select name="weather">
-            <option>Sunny</option>
-            <option>Rainy</option>
-            <option>Cold</option>
-        </select>
+        <input
+            type="text"
+            name="city"
+            placeholder="Enter your city"
+            required
+        >
 
         <label>🎯 Occasion</label>
 
         <select name="occasion">
-            <option>Casual</option>
-            <option>College</option>
-            <option>Party</option>
-            <option>Office</option>
+            <option value="Casual" {% if occasion=="Casual" %}selected{% endif %}>Casual</option>
+            <option value="College" {% if occasion=="College" %}selected{% endif %}>College</option>
+            <option value="Party" {% if occasion=="Party" %}selected{% endif %}>Party</option>
+            <option value="Office" {% if occasion=="Office" %}selected{% endif %}>Office</option>
         </select>
 
         <button>

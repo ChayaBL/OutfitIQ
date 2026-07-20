@@ -1,10 +1,15 @@
 from dotenv import load_dotenv
 load_dotenv()
+import traceback
 from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.utils import secure_filename
 from groq import Groq
 import sqlite3
 import os
+import re
+import requests
+
+print("GROQ KEY:", os.getenv("GROQ_API_KEY"))
 app = Flask(__name__)
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 app.secret_key = "outfitiq_secret_key"
@@ -255,75 +260,77 @@ def recommend():
 
     if request.method == "POST":
 
-        weather = request.form["weather"]
+        city = request.form["city"]
         occasion = request.form["occasion"]
+
+        weather_data = get_weather(city)
+
+        if weather_data:
+            weather = weather_data["weather"]
+            temperature = weather_data["temperature"]
+        else:
+            weather = "Unknown"
+            temperature = "Unknown"
 
         connection = sqlite3.connect("outfitiq.db")
         cursor = connection.cursor()
 
-        if weather == "Sunny":
-            season = ("Summer", "All Seasons")
-        elif weather == "Rainy":
-            season = ("Rainy", "All Seasons")
-        else:
-            season = ("Winter", "All Seasons")
-
-        # Find a top
-        cursor.execute("""
-        SELECT * FROM wardrobe
-        WHERE category IN ('Shirt', 'T-Shirt')
-        AND season IN (?, ?)
-        ORDER BY RANDOM()
-        LIMIT 1
-        """, season)
-
-        top = cursor.fetchone()
-
-        # Find a bottom
-        cursor.execute("""
-        SELECT * FROM wardrobe
-        WHERE category IN ('Jeans', 'Trousers')
-        AND season IN (?, ?)
-        ORDER BY RANDOM()
-        LIMIT 1
-        """, season)
-
-        bottom = cursor.fetchone()
+        cursor.execute("SELECT * FROM wardrobe")
+        clothes = cursor.fetchall()
 
         connection.close()
 
-        recommendation = {
-            "top": top,
-            "bottom": bottom
-        }
-    
+        wardrobe_text = ""
 
-        if top and bottom:
-            prompt = f"""
-            You are OutfitIQ, an AI fashion stylist.
+        for cloth in clothes:
+            wardrobe_text += (
+                f"ID: {cloth[0]}, "
+                f"Category: {cloth[1]}, "
+                f"Color: {cloth[2]}, "
+                f"Season: {cloth[3]}\n"
+            )
 
-            Use ONLY the information below.
+        prompt = f"""
+You are OutfitIQ, an AI fashion stylist.
 
-            Top:
-            - Category: {top[1]}
-            - Color: {top[2]}
-            - Season: {top[3]}
+Here is the user's wardrobe:
 
-            Bottom:
-            - Category: {bottom[1]}
-            - Color: {bottom[2]}
-            - Season: {bottom[3]}
+{wardrobe_text}
 
-            Weather: {weather}
-            Occasion: {occasion}
+City: {city}
+Weather: {weather}
+Temperature: {temperature}°C
+Occasion: {occasion}
 
-            Rules:
-            1. Do NOT change the weather.
-            2. Do NOT change the occasion.
-            3. Recommend ONLY these clothes.
-            4. Explain in 2-3 sentences why they are suitable.
-            """
+Your task:
 
+The user's occasion is: {occasion}
+
+You MUST choose clothes that are appropriate for THIS occasion only.
+
+Do NOT change the occasion.
+Do NOT assume another occasion.
+If the occasion is Casual, recommend only casual clothes.
+If the occasion is College, recommend only college-appropriate clothes.
+If the occasion is Party, recommend only party-appropriate clothes.
+If the occasion is Office, recommend only office-appropriate clothes.
+
+Use ONLY the clothes listed in the wardrobe.
+
+Return in this exact format:
+
+Top ID: <number>
+Bottom ID: <number>
+
+Explanation:
+Write 2-3 sentences explaining why you chose this outfit.
+
+IMPORTANT:
+- Do NOT mention any clothing IDs in the explanation.
+- Mention only the clothing names/colors.
+"""
+
+        try:
             response = client.chat.completions.create(
                 model="llama-3.3-70b-versatile",
                 messages=[
@@ -335,13 +342,57 @@ def recommend():
             )
 
             ai_response = response.choices[0].message.content
+            print(ai_response)
 
-            
+            top_match = re.search(r"Top ID:\s*(\d+)", ai_response)
+            bottom_match = re.search(r"Bottom ID:\s*(\d+)", ai_response)
+
+            if top_match and bottom_match:
+
+                top_id = int(top_match.group(1))
+                bottom_id = int(bottom_match.group(1))
+
+                connection = sqlite3.connect("outfitiq.db")
+                cursor = connection.cursor()
+
+                cursor.execute(
+                    "SELECT * FROM wardrobe WHERE id = ?",
+                    (top_id,)
+                )
+                top = cursor.fetchone()
+
+                cursor.execute(
+                    "SELECT * FROM wardrobe WHERE id = ?",
+                    (bottom_id,)
+                )
+                bottom = cursor.fetchone()
+
+                connection.close()
+
+                recommendation = {
+                    "top": top,
+                    "bottom": bottom
+                }
+
+            ai_response = re.sub(
+                r"Top ID:\s*\d+\s*Bottom ID:\s*\d+",
+                "",
+                ai_response,
+                flags=re.IGNORECASE
+            ).strip()
+
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            ai_response = str(e)
+
     return render_template(
-        "recommend.html",
-        recommendation=recommendation,
-        ai_response=ai_response
-        )
+    "recommend.html",
+    recommendation=recommendation,
+    ai_response=ai_response,
+    city=city if request.method == "POST" else "",
+    occasion=occasion if request.method == "POST" else ""
+)
 
 @app.route("/logout")
 def logout():
@@ -349,6 +400,27 @@ def logout():
     session.clear()
 
     return redirect(url_for("home"))
+
+def get_weather(city):
+
+    api_key = os.getenv("WEATHER_API_KEY")
+
+    url = (
+        f"https://api.openweathermap.org/data/2.5/weather"
+        f"?q={city}&appid={api_key}&units=metric"
+    )
+
+    response = requests.get(url)
+    data = response.json()
+
+    if response.status_code == 200:
+        return {
+            "city": data["name"],
+            "weather": data["weather"][0]["main"],
+            "temperature": data["main"]["temp"]
+        }
+
+    return None
 
 @app.route("/")
 def home():
